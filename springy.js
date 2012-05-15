@@ -93,10 +93,32 @@ Graph.prototype.newNode = function(data) {
 	return node;
 };
 
+Graph.prototype.newNodeWithId = function(id, data)
+{
+	var node = new Node(id, data);
+	this.addNode(node);
+	return node;
+};
+
 Graph.prototype.newEdge = function(source, target, data) {
 	var edge = new Edge(this.nextEdgeId++, source, target, data);
 	this.addEdge(edge);
 	return edge;
+};
+
+Graph.prototype.newEdgeWithId = function(id, sourceId, targetId, data)
+{
+	var edge = new Edge(id, this.getNode(sourceId), this.getNode(targetId), data);
+	this.addEdge(edge);
+	return edge;
+};
+
+Graph.prototype.getNode = function(id)
+{
+	if (typeof(this.nodeSet[id]) !== 'undefined') {
+		return this.nodeSet[id];
+	}
+	return null;
 };
 
 // find the edges from node1 to node2
@@ -108,6 +130,8 @@ Graph.prototype.getEdges = function(node1, node2) {
 
 	return [];
 };
+
+
 
 // remove a node and it's associated edges from the graph
 Graph.prototype.removeNode = function(node) {
